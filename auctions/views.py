@@ -6,13 +6,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
-from django.views.generic.list import  ListView
+from django.views.generic.list import ListView
 from .models import User, CreateAdd
 from .forms import CreateAddForm
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return HttpResponseRedirect(reverse("auctions:list_items"))
 
 
 def login_view(request):
@@ -63,7 +63,7 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("auctions:index"))
+        return HttpResponseRedirect(reverse("auctions:list_items"))
     else:
         return render(request, "auctions/register.html")
 
@@ -72,20 +72,20 @@ class CreatePost(CreateView):
     model = CreateAdd
     form_class = CreateAddForm
     template_name = 'auctions/create_form.html'
+
     @method_decorator(login_required)
     def post(self, request):
-        form = CreateAddForm(request.POST,request.FILES)
+        form = CreateAddForm(request.POST, request.FILES)
         if form.is_valid():
             user = request.user
             post = form.save(commit=False)
             post.user = user
             post.save()
-        return render(request, "auctions/layout.html")
+        return HttpResponseRedirect(reverse("auctions:list_items"))
 
 
 class ListItems(ListView):
     model = CreateAdd
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

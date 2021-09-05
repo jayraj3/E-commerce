@@ -4,11 +4,14 @@
         {% for createadd in object_list %}
         <div class="container">
             <div class="row">
+                <div class="column">
             <p> Name: {{ createadd.item_name}}  </p>
             <img src="{{createadd.image.url}}" class="rounded mx-auto d-block" alt="..." title="{{createadd.item_name}}" width="300" height="200"/>
             <p>Price: {{createadd.price}} €</p>
             <p>Date: {{createadd.post_date}}</p>
             <p>Posted by: {{createadd.user}}</p>
+            </div>
+        <p> Name: {{ createadd.item_name}}  </p>
             </div>
         {% empty %}
             <li>No item</li>
