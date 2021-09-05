@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form  method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-            {{ form.as_p }}
-        <input type="submit" value="Save">
-    </form>
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+  <section id="cover" class="min-vh-100">
+        <div id="cover-caption">
+            <div class="container">
+                        <h2> Add Item</h2>
+                        <div class="px-2">
 
-</body>
-</html>
+                            {% crispy  form%}
+
+                </div>
+            </div>
+        </div>
+</section>
+{% endblock %}

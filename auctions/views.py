@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView
+from django.views.generic.list import  ListView
 from .models import User, CreateAdd
 from .forms import CreateAddForm
 
@@ -25,7 +26,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("auctions:index"))
+            return HttpResponseRedirect(reverse("auctions:list_items"))
         else:
             return render(request, "auctions/login.html", {
                 "message": "Invalid username and/or password."
@@ -36,7 +37,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("auctions:index"))
+    return HttpResponseRedirect(reverse("auctions:list_items"))
 
 
 def register(request):
@@ -71,15 +72,21 @@ class CreatePost(CreateView):
     model = CreateAdd
     form_class = CreateAddForm
     template_name = 'auctions/create_form.html'
-    #success_url = reverse_lazy('auction:index')
     @method_decorator(login_required)
     def post(self, request):
         form = CreateAddForm(request.POST,request.FILES)
-        #print(request.POST)
         if form.is_valid():
             user = request.user
             post = form.save(commit=False)
             post.user = user
             post.save()
-        return render(request, "auctions/index.html")
+        return render(request, "auctions/layout.html")
 
+
+class ListItems(ListView):
+    model = CreateAdd
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

@@ -8,13 +8,14 @@
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     </head>
     <body>
+
     <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
         <ul class="nav">
             <li class="nav-item">
                 <a class="navbar-brand " >Auctions</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'auctions:index' %}">Active Listings</a>
+                <a class="nav-link" href="{% url 'auctions:list_items' %}">Active Listings</a>
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
@@ -36,14 +37,6 @@
             {% endif %}
         </ul>
     </nav>
-        <hr>
-        <div>
-            {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
-            {% else %}
-                Not signed in.
-            {% endif %}
-        </div>
         {% block body %}
         {% endblock %}
     </body>
