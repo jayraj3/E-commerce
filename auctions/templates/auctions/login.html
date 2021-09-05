@@ -10,23 +10,23 @@
 		<div class="row">
 			<div class="panel panel-primary">
 				<div class="panel-body">
-					<form action="{% url 'login' %}" method="post">
+					<form action="{% url 'auctions:login' %}" method="post">
                         {% csrf_token %}
 						<div class="form-group">
 							<h2>Login</h2>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="signupEmail">Email</label>
-							<input id="signupEmail" type="email" maxlength="50" class="form-control">
+							<label class="control-label" >Username</label>
+							<input name="username" type="text" maxlength="50" class="form-control">
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="signupPassword">Password</label>
-							<input id="signupPassword" type="password" maxlength="25" class="form-control"  length="40">
+							<label class="control-label" >Password</label>
+							<input name="password" type="password" maxlength="25" class="form-control"  length="40">
 						</div>
 						<div class="form-group">
 							<button id="signupSubmit" type="submit" class="btn btn-info btn-block">Login</button>
 						</div>
-						<p></p>Don't have an account? <a href="{% url 'register' %}">Register here.</a></p>
+						<p></p>Don't have an account? <a href="{% url 'auctions:register' %}">Register here.</a></p>
 					</form>
 				</div>
 			</div>

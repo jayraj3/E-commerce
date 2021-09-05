@@ -6,7 +6,6 @@ commerce/__pycache__/
 auction/__pycache__/
 # C extensions
 *.so
-
 # Distribution / packaging
 .Python
 build/
