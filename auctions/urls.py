@@ -12,5 +12,7 @@ urlpatterns = [
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
-    path("add_post", views.CreatePost.as_view(), name="add_post")
+    path("add_post", views.CreatePost.as_view(), name="add_post"),
+    path("<pk>", views.ItemDetailView.as_view(), name="item_detail"),
+    path("<pk>/delete_item", views.ItemDeleteView.as_view(), name="delete_item"),
 ]

@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container"/>
+    <img src="{{item.image.url}}" class="img-fluid"/>
+        <h4>Name: {{ item.item_name }}</h4>
+        <h4>price: {{item.price}}</h4>
+        <h4>Post by: {{item.user}}</h4>
+        <p>Published: {{ item.post_date }}</p>
+        {% if user.is_authenticated %}
+            <form action="{% url 'auctions:delete_item' item.id %}" method="POST">
+              {% csrf_token %}
+              <input class="btn btn-default btn-danger" name="delete" type="submit" value="Delete"/>
+            </form>
+        {% endif %}
+</div>
+{% endblock %}

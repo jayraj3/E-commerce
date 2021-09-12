@@ -5,10 +5,12 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from .models import User, CreateAdd
-from .forms import CreateAddForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import User, Item
+from .forms import ItemForm
 
 
 def index(request):
@@ -69,13 +71,13 @@ def register(request):
 
 
 class CreatePost(CreateView):
-    model = CreateAdd
-    form_class = CreateAddForm
+    model = Item
+    form_class = ItemForm
     template_name = 'auctions/create_form.html'
 
     @method_decorator(login_required)
     def post(self, request):
-        form = CreateAddForm(request.POST, request.FILES)
+        form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
             user = request.user
             post = form.save(commit=False)
@@ -85,8 +87,18 @@ class CreatePost(CreateView):
 
 
 class ListItems(ListView):
-    model = CreateAdd
+    model = Item
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+class ItemDetailView(DetailView):
+    model = Item
+
+
+class ItemDeleteView(LoginRequiredMixin, DeleteView):
+    model = Item
+    login_url = reverse_lazy('auctions:login')
+    success_url = reverse_lazy('auctions:list_items')
