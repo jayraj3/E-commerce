@@ -1,12 +1,12 @@
 from django.forms import ModelForm
-from .models import CreateAdd
+from .models import Item
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout,  Submit,Field
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 
-class CreateAddForm(ModelForm):
+class ItemForm(ModelForm):
     class Meta:
-        model = CreateAdd
+        model = Item
         fields = ['item_name', 'price', 'image']
 
     def __init__(self, *args, **kwargs):
