@@ -9,6 +9,7 @@ from django.views.generic.edit import CreateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from .models import User, Item
 from .forms import ItemForm
 
@@ -102,3 +103,10 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
     model = Item
     login_url = reverse_lazy('auctions:login')
     success_url = reverse_lazy('auctions:list_items')
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(ItemDeleteView, self).get_object()
+        if not obj.user == self.request.user:
+            raise Http404
+        return obj
